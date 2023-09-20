@@ -1,4 +1,4 @@
-### Exercício para entender o módulo Fs do node
+### Exercício para entender o módulo FileSystem do node
 
 Exercício: Criando um Gerenciador de Tarefas
 
