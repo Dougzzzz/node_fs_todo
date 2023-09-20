@@ -3,8 +3,8 @@ import  fs  from "fs";
 const endereçoDoArquivo = "./tasks.txt";
 
 function listaDeTarefas () {
-    //verificar se o arquivo de tasks existe
-    // se existir ler o arquivo e listar as tarefas
+    arquivoExiste()
+    lerTarefas()
     // caso não exista informar que não existe.
 }
 
@@ -36,4 +36,15 @@ function criarArquivoTxt() {
     })
 }
 
-arquivoExiste()
+async function lerTarefas() {
+    await fs.readFile(endereçoDoArquivo,"utf8",(error, data) => {
+        try {
+           console.log(data);
+
+        } catch (error) {
+            console.error("Não foi possível ler o arquivo", error)
+        }
+    })
+}
+
+listaDeTarefas ()
