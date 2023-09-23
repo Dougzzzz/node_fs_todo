@@ -5,7 +5,7 @@ const endereçoDoArquivo = "./tasks.txt";
 function listaDeTarefas () {
     arquivoExiste()
     lerTarefas()
-    // caso não exista informar que não existe.
+    
 }
 
 function arquivoExiste () {
@@ -25,26 +25,39 @@ function arquivoExiste () {
     });
 }
 
-function criarArquivoTxt() {
-    
-    fs.appendFile(endereçoDoArquivo,"Lista de Tarefas\n", 'utf8', ()=> {
-        try {
-            console.log("Arquivo Lista de Tarefas Criado com sucesso");
-        } catch (error) {
-            console.error("Não foi possivel criar o arquivo", error);
-        }
-    })
+async function criarArquivoTxt() {
+    try {
+        await fs.promises.appendFile(endereçoDoArquivo, "Lista de Tarefas\n","utf8");
+        console.log("Arquivo de lista de tarefas criado");
+    } catch (erro) {
+        console.error("Não foi possível criar arquivo", erro);
+    }
+
 }
 
 async function lerTarefas() {
-    await fs.readFile(endereçoDoArquivo,"utf8",(error, data) => {
-        try {
-           console.log(data);
+    try {
+       const tarefasListadas = await fs.promises.readFile(endereçoDoArquivo, "utf8");
+        console.log(tarefasListadas);
+    } catch (erro) {
+        console.error("Não foi possível ler o arquivo", erro);
+    };
+        
+};
 
-        } catch (error) {
-            console.error("Não foi possível ler o arquivo", error)
-        }
-    })
+async function escreverTarefas(tarefa) {
+    try {
+        const tarefaFormatada = tarefa + "\n";
+        await fs.promises.appendFile(endereçoDoArquivo, tarefaFormatada);
+        console.log(`A tarefa "${tarefa}" foi adicionada à lista`);
+    } catch (erro) {
+        console.error("Não foi possível adicionar a tarefa à lista", erro);
+    };
+};
+
+function menuDeInteracao (){
+
 }
 
-listaDeTarefas ()
+//listaDeTarefas ();
+criarArquivoTxt()
