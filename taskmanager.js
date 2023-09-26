@@ -1,4 +1,6 @@
 import  fs  from "fs";
+import { type } from "os";
+import prompt from "prompt";
 
 const endereçoDoArquivo = "./tasks.txt";
 
@@ -8,21 +10,19 @@ function listaDeTarefas () {
     
 }
 
-function arquivoExiste () {
+async function arquivoExiste () {
+    try {
+      await  fs.promises.stat(endereçoDoArquivo);
+      console.log("O arquivo existe, você pode listar suas tarefas")
+    } catch (error) {
+        if (error.code === 'ENOENT'){
+            criarArquivoTxt()
+            console.log("Arquivo criado")
+        } else{
+            console.error("Ocorreu um erro ao verificar o arquivo")
+        }
+    }
     
-
-    fs.stat(endereçoDoArquivo, (erro, stats) => {
-         if (erro) {
-             if (erro.code === 'ENOENT') {
-                 console.log("O arquivo não existe");
-                 criarArquivoTxt()
-             } else {
-                 console.error("Ocorreu um erro ao verificar o arquivo", erro);
-             }
-         } else {
-              console.log("O arquivo existe. Agora você pode listar as tarefas.");
-         }
-    });
 }
 
 async function criarArquivoTxt() {
@@ -55,9 +55,21 @@ async function escreverTarefas(tarefa) {
     };
 };
 
-function menuDeInteracao (){
+async function menuDeInteracao (){
+try {
+    prompt.start();
+    const userInput = await prompt.get(['Digite uma opção:\n 1 para listar tarefas\n 2 para adicionar uma tarefa\n 3 para sair\n'], );
+    const opcao = parseInt(userInput);
+    
+
+} catch (error) {
+    
+}
+
+
+
 
 }
 
 //listaDeTarefas ();
-criarArquivoTxt()
+menuDeInteracao();
