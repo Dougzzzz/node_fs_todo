@@ -1,6 +1,5 @@
 import  fs  from "fs";
-import { type } from "os";
-import prompt from "prompt";
+import readline from 'readline';
 
 const endereçoDoArquivo = "./tasks.txt";
 
@@ -56,20 +55,22 @@ async function escreverTarefas(tarefa) {
 };
 
 async function menuDeInteracao (){
-try {
-    prompt.start();
-    const userInput = await prompt.get(['Digite uma opção:\n 1 para listar tarefas\n 2 para adicionar uma tarefa\n 3 para sair\n'], );
-    const opcao = parseInt(userInput);
-    
-
-} catch (error) {
+    const opcoes = ["digite 1 para listar tarefas", "digite 2 para adicionar uma tarefa", "digite 3 para sair"];
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+        terminal: true,
+      });
+    try {
+        const opcao = await rl.keyInSelect(opcoes, "Selecione uma opção");
+        if(opcao === 1 ) {
+            lerTarefas()
+        }
+        
+    } catch (error) {
+        console.error("Ocorreu um erro", error);
+    }
     
 }
-
-
-
-
-}
-
 //listaDeTarefas ();
 menuDeInteracao();
