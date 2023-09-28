@@ -1,5 +1,7 @@
 import  fs  from "fs";
-import readline from 'readline';
+import inquirer from "inquirer";
+import RawListPrompt from "inquirer/lib/prompts/rawlist.js";
+
 
 const endereçoDoArquivo = "./tasks.txt";
 
@@ -54,23 +56,24 @@ async function escreverTarefas(tarefa) {
     };
 };
 
-async function menuDeInteracao (){
-    const opcoes = ["digite 1 para listar tarefas", "digite 2 para adicionar uma tarefa", "digite 3 para sair"];
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-        terminal: true,
-      });
-    try {
-        const opcao = await rl.keyInSelect(opcoes, "Selecione uma opção");
-        if(opcao === 1 ) {
-            lerTarefas()
-        }
-        
-    } catch (error) {
-        console.error("Ocorreu um erro", error);
-    }
-    
+function menuDeInteracao (){
+inquirer.prompt([
+   {
+    type: 'rawlist',
+    name: 'theme',
+    message: 'Escolha uma das opções:',
+    choices: [
+        'Listar tarefas',
+        'Adicionar tarefas',
+        'sair'
+    ]
+   }
+
+   
+])
+.then((resposta) => {
+    console.log(JSON.stringify(resposta,null,' '))
+});
 }
 //listaDeTarefas ();
 menuDeInteracao();
